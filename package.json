@@ -38,6 +38,14 @@
     "vite": "^5.4.0",
     "vitest": "^2.1.0"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "README.en.md",
+    "README.zh-TW.md",
+    "LICENSE",
+    "assets"
+  ],
   "engines": {
     "node": ">=18.0.0"
   }
