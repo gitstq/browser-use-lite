@@ -110,8 +110,8 @@ export class DOMExtractor {
       const removeSelectors = ['script', 'style', 'noscript', 'iframe', 'nav', 'footer'];
       for (const sel of removeSelectors) {
         const elements = body.querySelectorAll(sel);
-        for (const el of elements) {
-          el.remove();
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].remove();
         }
       }
 
