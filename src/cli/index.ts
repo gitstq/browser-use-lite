@@ -6,13 +6,13 @@
  */
 
 import { Command } from 'commander';
-import { Agent } from '../core/agent.js';
-import { OpenAILLM } from '../llm/openai.js';
-import { ActionRegistry } from '../actions/registry.js';
 import { clickAction } from '../actions/builtins/click.js';
-import { typeAction } from '../actions/builtins/type.js';
 import { navigateAction } from '../actions/builtins/navigate.js';
 import { scrollAction } from '../actions/builtins/scroll.js';
+import { typeAction } from '../actions/builtins/type.js';
+import { ActionRegistry } from '../actions/registry.js';
+import { Agent } from '../core/agent.js';
+import { OpenAILLM } from '../llm/openai.js';
 
 /**
  * 启动CLI
@@ -20,10 +20,7 @@ import { scrollAction } from '../actions/builtins/scroll.js';
 export async function runCLI(): Promise<void> {
   const program = new Command();
 
-  program
-    .name('browser-use-lite')
-    .description('轻量级AI浏览器自动化代理')
-    .version('0.1.0');
+  program.name('browser-use-lite').description('轻量级AI浏览器自动化代理').version('0.1.0');
 
   program
     .command('run')
@@ -63,8 +60,8 @@ export async function runCLI(): Promise<void> {
       // 创建Agent配置
       const agentConfig = {
         task,
-        maxSteps: parseInt(options.maxSteps, 10),
-        stepTimeout: parseInt(options.timeout, 10),
+        maxSteps: Number.parseInt(options.maxSteps, 10),
+        stepTimeout: Number.parseInt(options.timeout, 10),
         headless: options.headless,
         proxyServer: options.proxy,
         model: options.model,
@@ -75,11 +72,11 @@ export async function runCLI(): Promise<void> {
       // 创建并运行Agent
       const agent = new Agent(llm, agentConfig);
 
-      console.log(`\n========================================`);
+      console.log('\n========================================');
       console.log(`任务：${task}`);
       console.log(`模型：${options.model}`);
       console.log(`代理：${options.proxy ?? '无'}`);
-      console.log(`========================================\n`);
+      console.log('========================================\n');
 
       try {
         const result = await agent.run();
@@ -136,7 +133,7 @@ export async function runCLI(): Promise<void> {
       const result = await agent.run();
 
       if (result.success) {
-        console.log(`\n示例执行成功！`);
+        console.log('\n示例执行成功！');
         console.log(`答案：${result.finalAnswer ?? '无'}`);
       } else {
         console.log(`\n示例执行失败：${result.error ?? '未知错误'}`);

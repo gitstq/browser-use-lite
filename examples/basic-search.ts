@@ -1,4 +1,4 @@
-/#!/usr/bin/env tsx
+#!/usr/bin/env tsx
 /**
  * 基础搜索示例
  * 演示如何使用 browser-use-lite 执行简单的搜索任务
@@ -9,13 +9,13 @@
  *   OPENAI_API_KEY=your-key npx tsx examples/basic-search.ts
  */
 
-import { Agent } from '../src/core/agent.js';
-import { OpenAILLM } from '../src/llm/openai.js';
-import { ActionRegistry } from '../src/actions/registry.js';
 import { clickAction } from '../src/actions/builtins/click.js';
-import { typeAction } from '../src/actions/builtins/type.js';
 import { navigateAction } from '../src/actions/builtins/navigate.js';
 import { scrollAction } from '../src/actions/builtins/scroll.js';
+import { typeAction } from '../src/actions/builtins/type.js';
+import { ActionRegistry } from '../src/actions/registry.js';
+import { Agent } from '../src/core/agent.js';
+import { OpenAILLM } from '../src/llm/openai.js';
 
 /**
  * 运行基础搜索示例
@@ -84,7 +84,9 @@ async function runBasicSearch(): Promise<void> {
     console.log('\n执行步骤：');
     for (const step of result.steps) {
       const time = new Date(step.timestamp).toLocaleTimeString('zh-CN');
-      console.log(`[${time}] ${step.type}: ${step.content.slice(0, 100)}${step.content.length > 100 ? '...' : ''}`);
+      console.log(
+        `[${time}] ${step.type}: ${step.content.slice(0, 100)}${step.content.length > 100 ? '...' : ''}`,
+      );
     }
 
     console.log('========================================');

@@ -6,7 +6,7 @@
  * - 关键信息提取
  */
 
-import { StepType, type AgentStep, type PageInfo, type DOMElement } from './types.js';
+import { type AgentStep, type DOMElement, type PageInfo, StepType } from './types.js';
 
 /**
  * 记忆管理器配置

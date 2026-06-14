@@ -3,9 +3,9 @@
  * 测试记忆管理的核心功能
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { MemoryManager } from '../../src/core/memory.js';
-import { StepType, type AgentStep } from '../../src/core/types.js';
+import { type AgentStep, StepType } from '../../src/core/types.js';
 
 describe('MemoryManager', () => {
   let memory: MemoryManager;

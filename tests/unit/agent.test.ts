@@ -4,18 +4,19 @@
  * 使用mock来模拟浏览器和LLM
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Agent } from '../../src/core/agent.js';
+import { ActionStatus, StepType } from '../../src/core/types.js';
+import type { AgentConfig, LLMProvider, LLMResponse, PageInfo } from '../../src/core/types.js';
 import { OpenAILLM } from '../../src/llm/openai.js';
-import { StepType, ActionStatus } from '../../src/core/types.js';
-import type { LLMProvider, LLMResponse, AgentConfig, PageInfo } from '../../src/core/types.js';
 
 // 创建Mock LLM提供者
 function createMockLLM(responses: string[]): LLMProvider {
   let callIndex = 0;
   return {
     chat: vi.fn().mockImplementation(async () => {
-      const content = responses[callIndex++] ?? '思考：任务已完成\n动作：{"name": "wait", "args": {}}';
+      const content =
+        responses[callIndex++] ?? '思考：任务已完成\n动作：{"name": "wait", "args": {}}';
       return {
         content,
         usage: { promptTokens: 100, completionTokens: 50, totalTokens: 150 },
@@ -179,13 +180,16 @@ describe('Agent', () => {
     it('应该优雅处理浏览器启动失败', async () => {
       // 覆盖mock，模拟启动失败
       const { BrowserManager } = await import('../../src/browser/browser-manager.js');
-      vi.mocked(BrowserManager).mockImplementationOnce(() => ({
-        launch: vi.fn().mockRejectedValue(new Error('浏览器启动失败')),
-        close: vi.fn().mockResolvedValue(undefined),
-        getPage: vi.fn().mockReturnValue(null),
-        navigate: vi.fn(),
-        isLaunched: vi.fn().mockReturnValue(false),
-      } as unknown as import('../../src/browser/browser-manager.js').BrowserManager));
+      vi.mocked(BrowserManager).mockImplementationOnce(
+        () =>
+          ({
+            launch: vi.fn().mockRejectedValue(new Error('浏览器启动失败')),
+            close: vi.fn().mockResolvedValue(undefined),
+            getPage: vi.fn().mockReturnValue(null),
+            navigate: vi.fn(),
+            isLaunched: vi.fn().mockReturnValue(false),
+          }) as unknown as import('../../src/browser/browser-manager.js').BrowserManager,
+      );
 
       mockLLM = createMockLLM([]);
       const agent = new Agent(mockLLM, agentConfig);

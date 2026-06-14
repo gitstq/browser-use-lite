@@ -4,8 +4,8 @@
  * 支持自定义baseURL（适用于国内代理或第三方API）
  */
 
-import { BaseLLM } from './base.js';
 import type { LLMConfig, LLMMessage, LLMResponse } from '../core/types.js';
+import { BaseLLM } from './base.js';
 
 /**
  * OpenAI API响应类型

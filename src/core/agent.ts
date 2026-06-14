@@ -7,17 +7,17 @@
  * 循环直到任务完成或达到最大步数
  */
 
-import { MemoryManager } from './memory.js';
+import { ActionRegistry } from '../actions/registry.js';
 import { BrowserManager } from '../browser/browser-manager.js';
 import { DOMExtractor } from '../browser/dom-extractor.js';
-import { ActionRegistry } from '../actions/registry.js';
 import type { LLMProvider } from '../llm/base.js';
+import { MemoryManager } from './memory.js';
 import {
+  ActionStatus,
   type AgentConfig,
   type AgentResult,
   type PageInfo,
   StepType,
-  ActionStatus,
 } from './types.js';
 
 /**
@@ -194,7 +194,10 @@ export class Agent {
   /**
    * Action: 执行浏览器动作
    */
-  private async act(thought: string, pageInfo: PageInfo): Promise<{
+  private async act(
+    thought: string,
+    pageInfo: PageInfo,
+  ): Promise<{
     status: ActionStatus;
     message: string;
   }> {
@@ -288,7 +291,9 @@ export class Agent {
   /**
    * 从LLM回复中解析动作调用
    */
-  private parseActionCall(thought: string): { actionName: string; args: Record<string, unknown> } | null {
+  private parseActionCall(
+    thought: string,
+  ): { actionName: string; args: Record<string, unknown> } | null {
     // 尝试匹配JSON格式的动作
     const jsonMatch = thought.match(/动作[:：]\s*(\{[\s\S]*\})/);
     if (jsonMatch) {

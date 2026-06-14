@@ -5,10 +5,10 @@
  */
 
 import type { Page } from 'puppeteer';
+import { DOMExtractor } from '../../browser/dom-extractor.js';
 import type { Action, ActionResult } from '../../core/types.js';
 import { ActionStatus } from '../../core/types.js';
 import { ScrollSchema } from '../schema.js';
-import { DOMExtractor } from '../../browser/dom-extractor.js';
 
 /**
  * 滚动动作实现
@@ -86,9 +86,13 @@ export const scrollAction: Action = {
           break;
       }
 
-      await page.evaluate((x, y) => {
-        window.scrollBy(x, y);
-      }, scrollX, scrollY);
+      await page.evaluate(
+        (x, y) => {
+          window.scrollBy(x, y);
+        },
+        scrollX,
+        scrollY,
+      );
 
       // 等待滚动动画
       await new Promise((resolve) => setTimeout(resolve, 300));

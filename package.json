@@ -19,14 +19,7 @@
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "browser",
-    "automation",
-    "ai",
-    "agent",
-    "puppeteer",
-    "llm"
-  ],
+  "keywords": ["browser", "automation", "ai", "agent", "puppeteer", "llm"],
   "author": "",
   "license": "MIT",
   "type": "module",

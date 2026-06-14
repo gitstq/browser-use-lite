@@ -9,7 +9,16 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['puppeteer', 'puppeteer-extra', 'puppeteer-extra-plugin-stealth', 'commander', 'zod', 'fs', 'path', 'os'],
+      external: [
+        'puppeteer',
+        'puppeteer-extra',
+        'puppeteer-extra-plugin-stealth',
+        'commander',
+        'zod',
+        'fs',
+        'path',
+        'os',
+      ],
       output: {
         globals: {
           puppeteer: 'puppeteer',

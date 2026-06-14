@@ -7,7 +7,7 @@
  */
 
 import type { Page } from 'puppeteer';
-import type { PageInfo, DOMElement } from '../core/types.js';
+import type { DOMElement, PageInfo } from '../core/types.js';
 
 /**
  * DOM提取器
@@ -110,7 +110,9 @@ export class DOMExtractor {
       const removeSelectors = ['script', 'style', 'noscript', 'iframe', 'nav', 'footer'];
       for (const sel of removeSelectors) {
         const elements = body.querySelectorAll(sel);
-        elements.forEach((el) => el.remove());
+        for (const el of elements) {
+          el.remove();
+        }
       }
 
       // 获取文本并清理
@@ -130,24 +132,28 @@ export class DOMExtractor {
    * 根据索引查找元素
    */
   async findElementByIndex(page: Page, index: number): Promise<string | null> {
-    return await page.evaluate((sel, idx) => {
-      const elements = document.querySelectorAll(sel);
-      const el = elements[idx] as HTMLElement | undefined;
+    return await page.evaluate(
+      (sel, idx) => {
+        const elements = document.querySelectorAll(sel);
+        const el = elements[idx] as HTMLElement | undefined;
 
-      if (!el) {
-        return null;
-      }
+        if (!el) {
+          return null;
+        }
 
-      // 尝试生成唯一选择器
-      if (el.id) {
-        return `#${el.id}`;
-      }
+        // 尝试生成唯一选择器
+        if (el.id) {
+          return `#${el.id}`;
+        }
 
-      // 使用data属性标记
-      const marker = `__browser_use_lite_${idx}__`;
-      el.setAttribute('data-browser-use-lite', marker);
-      return `[data-browser-use-lite="${marker}"]`;
-    }, DOMExtractor.INTERACTIVE_SELECTORS, index);
+        // 使用data属性标记
+        const marker = `__browser_use_lite_${idx}__`;
+        el.setAttribute('data-browser-use-lite', marker);
+        return `[data-browser-use-lite="${marker}"]`;
+      },
+      DOMExtractor.INTERACTIVE_SELECTORS,
+      index,
+    );
   }
 
   /**

@@ -5,10 +5,10 @@
  */
 
 import type { Page } from 'puppeteer';
+import { DOMExtractor } from '../../browser/dom-extractor.js';
 import type { Action, ActionResult } from '../../core/types.js';
 import { ActionStatus } from '../../core/types.js';
 import { TypeSchema } from '../schema.js';
-import { DOMExtractor } from '../../browser/dom-extractor.js';
 
 /**
  * 输入动作实现

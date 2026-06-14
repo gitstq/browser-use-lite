@@ -7,9 +7,9 @@
  * - 使用stealth插件绕过检测
  */
 
+import type { Browser, Page } from 'puppeteer';
 import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import type { Browser, Page } from 'puppeteer';
 
 // puppeteer-extra 使用 CommonJS 导出，需要兼容处理
 const puppeteer = puppeteerExtra as unknown as {
@@ -144,7 +144,7 @@ export class BrowserManager {
    * 导航到指定URL
    * 内置重试机制，适应中国大陆网络环境
    */
-  async navigate(url: string, retries: number = 3): Promise<void> {
+  async navigate(url: string, retries = 3): Promise<void> {
     if (!this.page) {
       throw new Error('页面未初始化，请先调用launch()');
     }
@@ -223,7 +223,9 @@ export class BrowserManager {
     if (!this.page) {
       throw new Error('页面未初始化');
     }
-    await this.page.waitForSelector(selector, { timeout: timeout ?? this.config.defaultNavigationTimeout });
+    await this.page.waitForSelector(selector, {
+      timeout: timeout ?? this.config.defaultNavigationTimeout,
+    });
   }
 
   /**

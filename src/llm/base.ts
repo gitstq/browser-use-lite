@@ -4,7 +4,7 @@
  * 所有LLM适配器都需要实现此接口
  */
 
-import type { LLMProvider, LLMConfig, LLMMessage, LLMResponse } from '../core/types.js';
+import type { LLMConfig, LLMMessage, LLMProvider, LLMResponse } from '../core/types.js';
 
 export type { LLMProvider, LLMConfig, LLMMessage, LLMResponse };
 
